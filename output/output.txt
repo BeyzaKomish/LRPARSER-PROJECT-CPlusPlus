@@ -1,0 +1,42 @@
+Step					Stack								Input Left				Action
+-------------------------------------------------------------------------------------------------------------
+0                       0 id 5                      id * ( id + id ) $               Shift 5
+1                        0 F 3                         * ( id + id ) $              Reduce 6  F -> id  (GOTO[0, F])
+2                        0 T 2                         * ( id + id ) $              Reduce 4  T -> F  (GOTO[0, T])
+3                    0 T 2 * 7                         * ( id + id ) $               Shift 7
+4                0 T 2 * 7 ( 4                           ( id + id ) $               Shift 4
+5           0 T 2 * 7 ( 4 id 5                             id + id ) $               Shift 5
+6            0 T 2 * 7 ( 4 F 3                                + id ) $              Reduce 6  F -> id  (GOTO[4, F])
+7            0 T 2 * 7 ( 4 T 2                                + id ) $              Reduce 4  T -> F  (GOTO[4, T])
+8            0 T 2 * 7 ( 4 E 8                                + id ) $              Reduce 2  E -> T  (GOTO[4, E])
+9        0 T 2 * 7 ( 4 E 8 + 6                                + id ) $               Shift 6
+10   0 T 2 * 7 ( 4 E 8 + 6 id 5                                  id ) $               Shift 5
+11    0 T 2 * 7 ( 4 E 8 + 6 F 3                                     ) $              Reduce 6  F -> id  (GOTO[6, F])
+12    0 T 2 * 7 ( 4 E 8 + 6 T 9                                     ) $              Reduce 4  T -> F  (GOTO[6, T])
+13            0 T 2 * 7 ( 4 E 8                                     ) $              Reduce 1  E -> E + T  (GOTO[4, E])
+14       0 T 2 * 7 ( 4 E 8 ) 11                                     ) $               Shift 11
+15               0 T 2 * 7 F 10                                       $              Reduce 5  F -> ( E )  (GOTO[7, F])
+16                        0 T 2                                       $              Reduce 3  T -> T * F  (GOTO[0, T])
+17                        0 E 1                                       $              Reduce 2  E -> T  (GOTO[0, E])
+18                        0 E 1                                       $              ACCEPT
+
+Parse tree generated
+
+/E
+/E/T
+/E/T/T
+/E/T/T/F
+/E/T/T/F/id
+/E/T/*
+/E/T/F
+/E/T/F/(
+/E/T/F/E
+/E/T/F/E/E
+/E/T/F/E/E/T
+/E/T/F/E/E/T/F
+/E/T/F/E/E/T/F/id
+/E/T/F/E/+
+/E/T/F/E/T
+/E/T/F/E/T/F
+/E/T/F/E/T/F/id
+/E/T/F/)
